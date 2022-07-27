@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { IIventory } from 'src/app/models/inventory.model';
 import { User } from 'src/app/models/user.model';
 import { environment } from 'src/environments/environment';
 
@@ -12,10 +11,10 @@ type params = {
 };
 
 @Injectable({ providedIn: 'root' })
-export class InventoryService {
+export class CustomerService {
   constructor(private http: HttpClient, private router: Router) {}
 
-  getInventory(event?: any, filter?: any) {
+  getCustomers(event?: any, filter?: any) {
     let params: params = {
       page: Number(event?.pageIndex) + 1,
       limit: event?.pageSize,
@@ -28,19 +27,7 @@ export class InventoryService {
       delete params.page;
       delete params.limit;
     }
-    return this.http.get<any>(environment.api_url + 'inventory', { params });
-  }
-
-  updateInventory(id: string, data: any) {
-    return this.http.put<any>(environment.api_url + 'inventory/' + id, data);
-  }
-
-  deleteInventory(id: string) {
-    return this.http.delete<any>(environment.api_url + 'inventory/' + id);
-  }
-
-  getInventoryById(id: string) {
-    return this.http.get<IIventory>(environment.api_url + 'inventory/' + id);
+    return this.http.get<any>(environment.api_url + 'auth/users', { params });
   }
 
   getUser(id: string | null) {

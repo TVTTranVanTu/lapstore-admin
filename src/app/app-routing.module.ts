@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CustomerComponent } from './pages/customer/containers/index';
+import { CustomerListComponent } from './pages/customer/containers/customer-list/customer-list.component';
+import {
+  CustomerComponent,
+  CustomerEditComponent,
+} from './pages/customer/containers/index';
 import { DashboardPageComponent } from './pages/dashboard/containers/index';
 import {
   InventoryListComponent,
@@ -26,8 +30,12 @@ const routes: Routes = [
   },
   {
     path: 'customers',
-    pathMatch: 'full',
     component: CustomerComponent,
+    children: [
+      { path: '', pathMatch: 'full', component: CustomerListComponent },
+      { path: 'view', component: CustomerListComponent },
+      { path: 'edit/:id', component: CustomerEditComponent },
+    ],
   },
   {
     path: 'orders',

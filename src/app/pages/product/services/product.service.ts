@@ -32,9 +32,12 @@ export class ProductService {
     if (!filter.search) {
       delete params.search;
     }
-    return this.http.get<IProduct>(environment.api_url + 'products', {
+    return this.http.get<IProduct[]>(environment.api_url + 'products', {
       params,
     });
+  }
+  getProductList() {
+    return this.http.get<IProduct[]>(environment.api_url + 'products');
   }
 
   getCategories() {

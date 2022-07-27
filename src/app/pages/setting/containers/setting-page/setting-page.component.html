@@ -1,7 +1,15 @@
 <app-layout>
-  <mat-spinner *ngIf="isLoading"></mat-spinner>
   <mat-toolbar class="header-title" role="heading">
-    <h2>SETTINGS</h2>
+    <div class="toolbar-link">
+      <img
+        class="icon-image link-item"
+        [src]="homeIcon"
+        alt="home"
+        routerLink="/customers"
+      />
+      <img class="icon-image slash-icon" [src]="slashIcon" alt="home" />
+      <span class="link-item" routerLink="/settings">Settings</span>
+    </div>
   </mat-toolbar>
   <mat-card-content class="setting-content">
     <mat-card class="setting-content__wrapper">

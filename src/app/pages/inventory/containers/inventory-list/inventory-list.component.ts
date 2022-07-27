@@ -4,6 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AddInventoryComponent } from 'src/app/components/popup-modal/add-inventory/add-inventory.component';
 import { DeleteModalComponent } from 'src/app/components/popup-modal/delete-modal/delete-modal.component';
 import { InventoryService } from '../../services/inventory.service';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-inventory-list',
@@ -11,6 +13,11 @@ import { InventoryService } from '../../services/inventory.service';
   styleUrls: ['./inventory-list.component.scss'],
 })
 export class InventoryListComponent implements OnInit {
+  pageEvent?: PageEvent;
+  pageIndex?: number;
+  pageSize?: number;
+  length?: number;
+
   listInventory = [];
   tableColums: string[] = [
     'productId',
@@ -27,6 +34,18 @@ export class InventoryListComponent implements OnInit {
   homeIcon: string = '../../../assets/icons/home-icon.svg';
   slashIcon: string = '../../../assets/icons/slash-icon.svg';
 
+  private subjectKeyUp = new Subject<any>();
+
+  eventDefault = {
+    pageIndex: 0,
+    pageSize: 10,
+    length: 100,
+  };
+
+  public filter = {
+    search: '',
+  };
+
   constructor(
     private inventoryService: InventoryService,
     public dialog: MatDialog,
@@ -34,15 +53,37 @@ export class InventoryListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getInventoryList();
+    this.getInventoryList(this.eventDefault, this.filter);
   }
 
-  formatData() {}
+  ngAfterViewInit() {
+    this.subjectKeyUp
+      .pipe(debounceTime(1000), distinctUntilChanged())
+      .subscribe((d) => {
+        this.filter.search = d;
+        this.getInventoryList(this.eventDefault, this.filter);
+      });
+  }
 
-  getInventoryList() {
-    this.inventoryService.getInventory().subscribe((data) => {
-      this.listInventory = data;
-    });
+  // search
+  onSearch($event: any) {
+    const value = $event.target.value;
+    this.subjectKeyUp.next(value);
+  }
+
+  getInventoryList(event?: PageEvent, filter?: any) {
+    this.inventoryService
+      .getInventory(event, filter)
+      .subscribe((response: any) => {
+        if (response.error) {
+        } else {
+          this.listInventory = response.data;
+          this.pageIndex = Number(response.pagination.page) - 1;
+          this.pageSize = response.pagination.totalRows;
+          this.length = response.pagination.totals;
+        }
+      });
+    return event;
   }
   openDialogUpdate(id: string, name: string, quantity: number) {
     const dialogRef = this.dialog.open(AddInventoryComponent, {

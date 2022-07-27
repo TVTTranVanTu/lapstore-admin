@@ -42,6 +42,7 @@ import { PopupModule } from './components/popup-modal/popup-modal.module';
     CustomerModule,
     ProductModule,
     OrderModule,
+    CustomerModule,
     SettingModule,
     InventoryModule,
     MatCardModule,

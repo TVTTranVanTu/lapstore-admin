@@ -69,9 +69,7 @@ export class ProductViewComponent implements OnInit, AfterViewInit {
       .pipe(debounceTime(1000), distinctUntilChanged())
       .subscribe((d) => {
         this.filter.search = d;
-        if (d.trim()) {
-          this.getProductList(this.eventDefault, this.filter);
-        }
+        this.getProductList(this.eventDefault, this.filter);
       });
   }
 

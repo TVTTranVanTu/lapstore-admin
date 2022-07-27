@@ -5,17 +5,19 @@ import { FileUpload } from 'src/app/models/file-upload.model';
 import { User, userInfor } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/pages/auth/services/auth.service';
 import { FileUploadService } from 'src/app/services/file-upload.service';
-import { SettingService } from '../../services/setting.service';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { SettingService } from 'src/app/pages/setting/services/setting.service';
+import { ActivatedRoute } from '@angular/router';
+
 @Component({
-  selector: 'app-setting',
-  templateUrl: './setting-page.component.html',
-  styleUrls: ['./setting-page.component.scss'],
+  selector: 'app-customer-edit',
+  templateUrl: './customer-edit.component.html',
+  styleUrls: ['./customer-edit.component.scss'],
 })
-export class SettingComponent implements OnInit {
+export class CustomerEditComponent implements OnInit {
   public formUserInfor!: FormGroup;
   private basePath = '/uploads';
 
@@ -41,6 +43,7 @@ export class SettingComponent implements OnInit {
     private snackBar: MatSnackBar,
     public authService: AuthService,
     public settingService: SettingService,
+    private route: ActivatedRoute,
     public fileUploadService: FileUploadService,
     private db: AngularFireDatabase,
     private storage: AngularFireStorage
@@ -126,8 +129,7 @@ export class SettingComponent implements OnInit {
 
   public ngOnInit(): void {
     this.isLoading = true;
-
-    this.userId = this.authService.getUserId();
+    this.userId = this.route.snapshot.paramMap.get('id');
 
     this.getUser();
 

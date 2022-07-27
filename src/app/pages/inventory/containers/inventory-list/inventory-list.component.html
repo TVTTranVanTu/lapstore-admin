@@ -13,6 +13,15 @@
   </div>
 </mat-toolbar>
 <mat-card-content class="inventory-content">
+  <div class="inventory-content__action">
+    <input
+      matInput
+      placeholder="Search"
+      type="text"
+      class="search-input"
+      (keyup)="onSearch($event)"
+    />
+  </div>
   <table mat-table [dataSource]="listInventory" class="product-content__table">
     <ng-container matColumnDef="productId">
       <th mat-header-cell *matHeaderCellDef>Inventory ID</th>
@@ -80,4 +89,12 @@
     <tr mat-header-row *matHeaderRowDef="tableColums"></tr>
     <tr mat-row *matRowDef="let row; columns: tableColums"></tr>
   </table>
+  <mat-paginator
+    [length]="length"
+    [pageSize]="10"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    aria-label="Select page"
+    (page)="pageEvent = getInventoryList($event, filter)"
+  >
+  </mat-paginator>
 </mat-card-content>
