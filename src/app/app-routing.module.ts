@@ -1,10 +1,86 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CustomerComponent } from './pages/customer/containers/index';
+import { DashboardPageComponent } from './pages/dashboard/containers/index';
+import {
+  InventoryListComponent,
+  InventoryPageComponent,
+} from './pages/inventory/containers';
+import { InventoryDetailComponent } from './pages/inventory/containers/index';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { OrderComponent } from './pages/order/containers';
+import {
+  ProductComponent,
+  ProductCreateComponent,
+  ProductEditComponent,
+  ProductViewComponent,
+  ProductDetailComponent,
+} from './pages/product/containers/index';
+import { SettingComponent } from './pages/setting/containers';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: 'dashboard',
+    pathMatch: 'full',
+    component: DashboardPageComponent,
+  },
+  {
+    path: 'customers',
+    pathMatch: 'full',
+    component: CustomerComponent,
+  },
+  {
+    path: 'orders',
+    pathMatch: 'full',
+    component: OrderComponent,
+  },
+  {
+    path: 'products',
+    component: ProductComponent,
+    children: [
+      { path: '', pathMatch: 'full', component: ProductViewComponent },
+      { path: 'view', component: ProductViewComponent },
+      { path: 'create', component: ProductCreateComponent },
+      { path: 'detail/:id', component: ProductDetailComponent },
+      { path: 'edit/:id', component: ProductEditComponent },
+    ],
+  },
+  {
+    path: 'inventory',
+    component: InventoryPageComponent,
+    children: [
+      { path: '', pathMatch: 'full', component: InventoryListComponent },
+      { path: 'view', component: InventoryListComponent },
+      { path: 'detail/:id', component: InventoryDetailComponent },
+    ],
+  },
+  {
+    path: 'settings',
+    pathMatch: 'full',
+    component: SettingComponent,
+  },
+  {
+    path: '404',
+    component: NotFoundComponent,
+  },
+  {
+    path: 'login',
+    loadChildren: () =>
+      import('./pages/auth/auth.module').then((m) => m.AuthModule),
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'dashboard',
+  },
+  {
+    path: '**',
+    redirectTo: '404',
+  },
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
