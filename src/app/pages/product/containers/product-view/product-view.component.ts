@@ -28,6 +28,7 @@ export class ProductViewComponent implements OnInit, AfterViewInit {
     'price',
     'discount',
     'status',
+    'createAt',
     'action',
   ];
   routeName?: string;

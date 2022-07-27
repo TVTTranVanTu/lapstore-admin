@@ -36,4 +36,12 @@ export class SettingService {
   editUserInfor(id: string | null, data: any) {
     return this.http.post<any>(environment.api_url + 'auth/users/' + id, data);
   }
+
+  getBrands() {
+    return this.http.get<any>(environment.api_url + 'brands');
+  }
+
+  getCategories() {
+    return this.http.get<any>(environment.api_url + 'category');
+  }
 }

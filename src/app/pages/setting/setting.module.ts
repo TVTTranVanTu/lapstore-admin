@@ -14,9 +14,19 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTabsModule } from '@angular/material/tabs';
+import { BrandSettingComponent } from './components/brand-setting/brand-setting.component';
+import { CategorySettingComponent } from './components/category-setting/category-setting.component';
+import { InformationSettingComponent } from './components/information-setting/information-setting.component';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
-  declarations: [SettingComponent],
+  declarations: [
+    SettingComponent,
+    BrandSettingComponent,
+    CategorySettingComponent,
+    InformationSettingComponent,
+  ],
   imports: [
     CommonModule,
     SharedModule,
@@ -33,6 +43,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatSelectModule,
+    MatTabsModule,
+    MatTableModule,
   ],
   exports: [],
   bootstrap: [MatDatepickerModule, MatNativeDateModule],

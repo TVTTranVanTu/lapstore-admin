@@ -31,16 +31,48 @@
     }
     .avatar {
         display: flex;
+        margin-right: 10px;
     }
     .element-name {
         cursor: pointer;
+    }
+    .username {
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 20px;
+        color: #101828;
+    }
+    .field {
+        padding: 0 10px;
+    }
+    .role {
+        padding: 2px 8px;
+        border-radius: 16px;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 18px;
+        text-align: center;
+    }
+    .admin {
+        background: #fef3f2;
+        color: #f04438;
+    }
+    .customer {
+        background: #ecfdf3;
+        color: #12b76a;
+    }
+    .text {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+        color: #616161;
     }
     &__action {
         display: flex;
         margin-bottom: 20px;
         justify-content: end;
         .search-input {
-            width: 50%;
+            width: 40%;
             padding: 10px 20px;
             border-radius: 30px;
             border: 1px solid gray;

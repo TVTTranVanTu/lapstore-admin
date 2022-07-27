@@ -24,6 +24,7 @@ export class InventoryListComponent implements OnInit {
     'productName',
     'quantity',
     'userNumber',
+    'createAt',
     'action',
   ];
   isAdd: boolean = false;
@@ -98,7 +99,7 @@ export class InventoryListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result.isAdd == true) {
+      if (result?.isAdd == true) {
         if (result.quantity <= 0) {
           this.snackBar.open('Value must be greater than 1', '', {
             duration: 3000,
@@ -122,7 +123,7 @@ export class InventoryListComponent implements OnInit {
           duration: 3000,
           panelClass: 'snackbar-notification__success',
         });
-        this.getInventoryList();
+        this.getInventoryList(this.eventDefault, this.filter);
       },
       (error) => {
         this.snackBar.open('Add product to inventory not success', '', {

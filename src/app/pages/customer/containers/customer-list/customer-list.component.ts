@@ -25,10 +25,11 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
   tableColums: string[] = [
     'avatar',
     'customerName',
+    'role',
     'address',
     'phoneNumber',
     'email',
-    'role',
+    'createAt',
     'action',
   ];
 
