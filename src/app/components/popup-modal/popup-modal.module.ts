@@ -20,6 +20,7 @@ import { AppRoutingModule } from 'src/app/app-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { AddInventoryComponent } from './add-inventory/add-inventory.component';
 import { DeleteModalComponent } from './delete-modal/delete-modal.component';
+import { EditBrandComponent } from './edit-brand/edit-brand.component';
 import { EditModalComponent } from './edit-modal/edit-modal.component';
 
 @NgModule({
@@ -27,6 +28,7 @@ import { EditModalComponent } from './edit-modal/edit-modal.component';
     EditModalComponent,
     DeleteModalComponent,
     AddInventoryComponent,
+    EditBrandComponent,
   ],
   imports: [
     SharedModule,

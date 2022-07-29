@@ -44,4 +44,12 @@ export class SettingService {
   getCategories() {
     return this.http.get<any>(environment.api_url + 'category');
   }
+
+  getSubCategories(id: string) {
+    return this.http.get<any>(environment.api_url + 'subcategory/CT/' + id);
+  }
+
+  editBrand(id: string, data: any) {
+    return this.http.put<any>(environment.api_url + 'brands/' + id, data);
+  }
 }

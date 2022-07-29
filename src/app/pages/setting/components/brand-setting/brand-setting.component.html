@@ -11,7 +11,7 @@
             <img
               mat-card-avatar
               class="avatar-image"
-              [src]="element.profile?.photo || photo"
+              [src]="element?.brandThumbnail || photo"
               alt="avatar"
             />
           </div>
@@ -47,7 +47,13 @@
               mat-icon-button
               class="edit-action"
               type="button"
-              (click)="openEditCustomer(element._id)"
+              (click)="
+                openDialogEdit(
+                  element._id,
+                  element.brandName,
+                  element.brandThumbnail
+                )
+              "
             >
               <img [src]="editIcon" />
             </button>
@@ -55,7 +61,13 @@
               mat-icon-button
               class="edit-action"
               type="button"
-              (click)="openEditCustomer(element._id)"
+              (click)="
+                openDialogEdit(
+                  element._id,
+                  element.brandName,
+                  element.brandThumbnail
+                )
+              "
             >
               <img [src]="deleteIcon" />
             </button>

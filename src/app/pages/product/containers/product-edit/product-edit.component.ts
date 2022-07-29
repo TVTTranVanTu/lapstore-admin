@@ -227,9 +227,7 @@ export class ProductEditComponent implements OnInit {
       .pipe(
         finalize(() => {
           storageRef.getDownloadURL().subscribe((downloadURL) => {
-            this.formDataProduct.patchValue({
-              productThumbnail: downloadURL,
-            });
+            this.productInfor.productThumbnail = downloadURL;
             this.formDataProduct.controls['productThumbnail'].markAsDirty();
             this.formDataProduct.patchValue({
               productThumbnail: downloadURL,

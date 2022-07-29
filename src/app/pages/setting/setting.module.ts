@@ -19,7 +19,7 @@ import { BrandSettingComponent } from './components/brand-setting/brand-setting.
 import { CategorySettingComponent } from './components/category-setting/category-setting.component';
 import { InformationSettingComponent } from './components/information-setting/information-setting.component';
 import { MatTableModule } from '@angular/material/table';
-
+import { MatListModule } from '@angular/material/list';
 @NgModule({
   declarations: [
     SettingComponent,
@@ -45,6 +45,7 @@ import { MatTableModule } from '@angular/material/table';
     MatSelectModule,
     MatTabsModule,
     MatTableModule,
+    MatListModule,
   ],
   exports: [],
   bootstrap: [MatDatepickerModule, MatNativeDateModule],
