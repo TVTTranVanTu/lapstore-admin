@@ -3,6 +3,9 @@
     &__wrapper {
         box-shadow: none;
         &-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             .title {
                 font-weight: 500;
                 font-size: 14px;
@@ -43,10 +46,10 @@
         .id {
             padding-left: 24px;
             box-sizing: border-box;
-        }
-        .id,
-        .name {
             width: 30%;
+        }
+        .name {
+            width: 20%;
         }
         .action {
             padding-right: 24px;
@@ -56,8 +59,26 @@
         .sub-category {
             width: 10%;
         }
-        .created {
-            width: 20%;
+        .created,
+        .status {
+            width: 15%;
+        }
+        .label {
+            border-radius: 16px;
+            margin-left: 20px;
+            padding: 2px 8px;
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 18px;
+            text-align: center;
+        }
+        .active {
+            background: #ecfdf3;
+            color: #12b76a;
+        }
+        .unactive {
+            background: #fef3f2;
+            color: #f04438;
         }
     }
     .sub-category {

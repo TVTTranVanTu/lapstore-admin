@@ -6,6 +6,10 @@ import {
   trigger,
 } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CategoryModalComponent } from 'src/app/components/popup-modal/category-modal/category-modal.component';
+import { ConfirmModalComponent } from 'src/app/components/popup-modal/confirm-modal/confirm-modal.component';
 import { SettingService } from '../../services/setting.service';
 
 @Component({
@@ -34,19 +38,27 @@ export class CategorySettingComponent implements OnInit {
     'categoryName',
     'subCategory',
     'createAt',
+    'status',
     'action',
   ];
 
   isAdd: boolean = false;
   isDelete: boolean = false;
+  isEdit: boolean = false;
+  isConfirm: boolean = false;
 
   photo: string = '../../../assets/icons/no-image-icon.svg';
+  addIcon: string = '../../../assets/icons/plus.svg';
   editIcon: string = '../../../assets/icons/pencil-icon.svg';
   deleteIcon: string = '../../../assets/icons/trash-icon-sku.svg';
   chervonDown: string = '../../../assets/icons/chervon-down.svg';
   chervonUp: string = '../../../assets/icons/chervon-up.svg';
 
-  constructor(private settingService: SettingService) {}
+  constructor(
+    private settingService: SettingService,
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.getCategories();
@@ -59,6 +71,7 @@ export class CategorySettingComponent implements OnInit {
           _id: e._id,
           categoryName: e.categoryName,
           createdAt: e.createdAt,
+          active: e.active,
           isExpanded: false,
           subCategory: [],
         };
@@ -82,4 +95,110 @@ export class CategorySettingComponent implements OnInit {
   }
 
   openEditCustomer(id: string) {}
+
+  // add category
+
+  openDialogAdd() {
+    const dialogRef = this.dialog.open(CategoryModalComponent, {
+      data: {
+        title: 'Add new category?',
+        message: 'Are you sure you want to add new category',
+        type: 'add',
+        isAdd: this.isAdd,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result?.isAdd) {
+        this.settingService.addCategory(result.newData).subscribe(
+          (response) => {
+            this.snackBar.open('Add new category success', '', {
+              duration: 3000,
+              panelClass: 'snackbar-notification__success',
+            });
+            this.getCategories();
+          },
+          (error) => {
+            this.snackBar.open('Add new category not success', '', {
+              duration: 3000,
+              panelClass: 'snackbar-notification__not-success',
+            });
+          }
+        );
+      }
+    });
+  }
+
+  // edit category
+
+  openDialogEdit(id: string, name: string) {
+    const dialogRef = this.dialog.open(CategoryModalComponent, {
+      data: {
+        title: 'Edit category?',
+        message: 'Are you sure you want to edit category',
+        name: name,
+        type: 'edit',
+        isAdd: this.isAdd,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result?.isAdd) {
+        this.settingService.editCategory(id, result.newData).subscribe(
+          (response) => {
+            this.snackBar.open('Edit category success', '', {
+              duration: 3000,
+              panelClass: 'snackbar-notification__success',
+            });
+            this.getCategories();
+          },
+          (error) => {
+            this.snackBar.open('Edit category not success', '', {
+              duration: 3000,
+              panelClass: 'snackbar-notification__not-success',
+            });
+          }
+        );
+      }
+    });
+  }
+
+  // change status
+
+  openDialogConfirm(id: string, active: number, name: string) {
+    const dialogRef = this.dialog.open(ConfirmModalComponent, {
+      data: {
+        title: 'Change status for category?',
+        message: 'Are you sure you want to change status for category',
+        active: active,
+        name: name,
+        type: 'category',
+        isConfirm: this.isConfirm,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        console.log(result);
+
+        const data = {
+          active: !active,
+        };
+        this.settingService.editStatusCategory(id, data).subscribe(
+          (response) => {
+            this.snackBar.open('Change status for category success', '', {
+              duration: 3000,
+              panelClass: 'snackbar-notification__success',
+            });
+            this.getCategories();
+          },
+          (error) => {
+            this.snackBar.open('Change status for category not success', '', {
+              duration: 3000,
+              panelClass: 'snackbar-notification__not-success',
+            });
+          }
+        );
+      }
+    });
+  }
 }
