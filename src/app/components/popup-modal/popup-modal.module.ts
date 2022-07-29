@@ -23,6 +23,7 @@ import { DeleteModalComponent } from './delete-modal/delete-modal.component';
 import { EditBrandComponent } from './edit-brand/edit-brand.component';
 import { EditModalComponent } from './edit-modal/edit-modal.component';
 import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
+import { CategoryModalComponent } from './category-modal/category-modal.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { ConfirmModalComponent } from './confirm-modal/confirm-modal.component';
     AddInventoryComponent,
     EditBrandComponent,
     ConfirmModalComponent,
+    CategoryModalComponent,
   ],
   imports: [
     SharedModule,

@@ -132,7 +132,7 @@ export class BrandSettingComponent implements OnInit {
   openDialogConfirm(id: string, active: number, name: string) {
     const dialogRef = this.dialog.open(ConfirmModalComponent, {
       data: {
-        title: 'Change status?',
+        title: 'Change status for brand?',
         message: 'Are you sure you want to change status for brand',
         active: active,
         name: name,
@@ -148,14 +148,14 @@ export class BrandSettingComponent implements OnInit {
         };
         this.settingService.changeActiveBrand(id, data).subscribe(
           (response) => {
-            this.snackBar.open('Chnage status for brand success', '', {
+            this.snackBar.open('Change status for brand success', '', {
               duration: 3000,
               panelClass: 'snackbar-notification__success',
             });
             this.getBrands();
           },
           (error) => {
-            this.snackBar.open('Chnage status for brand not success', '', {
+            this.snackBar.open('Change status for brand not success', '', {
               duration: 3000,
               panelClass: 'snackbar-notification__not-success',
             });

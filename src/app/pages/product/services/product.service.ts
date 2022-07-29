@@ -41,7 +41,12 @@ export class ProductService {
   }
 
   getCategories() {
-    return this.http.get<ICategory[]>(environment.api_url + 'category');
+    const params = {
+      active: 1,
+    };
+    return this.http.get<ICategory[]>(environment.api_url + 'category', {
+      params,
+    });
   }
 
   getCategoryDetail(id?: string) {

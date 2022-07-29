@@ -6,7 +6,7 @@ import { catchError, of, switchMap } from 'rxjs';
 import { fromFetch } from 'rxjs/fetch';
 import { environment } from 'src/environments/environment';
 import { IBrand } from 'src/app/models/brand.model';
-import { id } from 'date-fns/locale';
+import { ICategory } from 'src/app/models/category.model';
 
 @Injectable({ providedIn: 'root' })
 export class SettingService {
@@ -29,6 +29,8 @@ export class SettingService {
     );
   }
 
+  // user
+
   getUser(id: string | null) {
     return this.http.get<{ user: User }>(
       environment.api_url + 'auth/users/' + id
@@ -39,16 +41,37 @@ export class SettingService {
     return this.http.post<any>(environment.api_url + 'auth/users/' + id, data);
   }
 
-  getBrands() {
-    return this.http.get<any>(environment.api_url + 'brands');
-  }
+  // category
 
   getCategories() {
     return this.http.get<any>(environment.api_url + 'category');
   }
 
+  addCategory(data: ICategory) {
+    return this.http.post<any>(environment.api_url + 'category', data);
+  }
+
+  editCategory(id: string, data: ICategory) {
+    return this.http.put<any>(environment.api_url + 'category/' + id, data);
+  }
+
+  editStatusCategory(id: string, data: any) {
+    return this.http.put<any>(
+      environment.api_url + 'category/active/' + id,
+      data
+    );
+  }
+
+  // sub category
+
   getSubCategories(id: string) {
     return this.http.get<any>(environment.api_url + 'subcategory/CT/' + id);
+  }
+
+  // brands
+
+  getBrands() {
+    return this.http.get<any>(environment.api_url + 'brands');
   }
 
   editBrand(id: string, data: any) {
