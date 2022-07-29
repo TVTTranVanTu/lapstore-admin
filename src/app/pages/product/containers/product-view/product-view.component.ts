@@ -111,11 +111,12 @@ export class ProductViewComponent implements OnInit, AfterViewInit {
 
   // delete product
 
-  openDialog(id: string | null, name: string | null): void {
+  openDialog(id: string, name: string): void {
     const dialogRef = this.dialog.open(DeleteModalComponent, {
       data: {
         title: 'Delete product?',
         name: name,
+        type: 'product',
         isDelete: this.isDelete,
       },
     });

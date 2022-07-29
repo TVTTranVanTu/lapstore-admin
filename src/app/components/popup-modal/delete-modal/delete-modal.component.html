@@ -24,10 +24,21 @@
     </svg>
     <h4 class="title">{{ data.title }}</h4>
   </div>
-  <div mat-dialog-content class="delete-modal__content">
+  <div
+    mat-dialog-content
+    class="delete-modal__content"
+    *ngIf="data.type == 'inventory'"
+  >
     Would you like to delete
-    <span class="name" *ngIf="data.type == 'inventory'">{{ data.name }} </span
-    >from inventory?
+    <span class="name">{{ data.name }} </span>from inventory?
+  </div>
+  <div
+    mat-dialog-content
+    class="delete-modal__content"
+    *ngIf="data.type == 'product'"
+  >
+    Would you like to delete
+    <span class="name">{{ data.name }} </span>?
   </div>
   <p *ngIf="data.message" class="message">{{ data.message }}</p>
   <div mat-dialog-actions class="delete-modal__action">

@@ -8,8 +8,7 @@
     class="edit-brand-modal__content"
     *ngIf="data.type == 'add'; else edit"
   >
-    {{ data.message }}
-    <span class="name">{{ data.name }} </span>?
+    {{ data.message }}?
   </div>
 
   <ng-template #edit>
