@@ -5,6 +5,8 @@ import { User } from 'src/app/models/user.model';
 import { catchError, of, switchMap } from 'rxjs';
 import { fromFetch } from 'rxjs/fetch';
 import { environment } from 'src/environments/environment';
+import { IBrand } from 'src/app/models/brand.model';
+import { id } from 'date-fns/locale';
 
 @Injectable({ providedIn: 'root' })
 export class SettingService {
@@ -51,5 +53,16 @@ export class SettingService {
 
   editBrand(id: string, data: any) {
     return this.http.put<any>(environment.api_url + 'brands/' + id, data);
+  }
+
+  addBrand(data: IBrand) {
+    return this.http.post<any>(environment.api_url + 'brands', data);
+  }
+
+  changeActiveBrand(id: string, data: any) {
+    return this.http.put<any>(
+      environment.api_url + 'brands/active/' + id,
+      data
+    );
   }
 }

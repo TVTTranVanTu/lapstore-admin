@@ -20,6 +20,7 @@ import { CategorySettingComponent } from './components/category-setting/category
 import { InformationSettingComponent } from './components/information-setting/information-setting.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatListModule } from '@angular/material/list';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 @NgModule({
   declarations: [
     SettingComponent,
@@ -46,6 +47,7 @@ import { MatListModule } from '@angular/material/list';
     MatTabsModule,
     MatTableModule,
     MatListModule,
+    MatSlideToggleModule,
   ],
   exports: [],
   bootstrap: [MatDatepickerModule, MatNativeDateModule],

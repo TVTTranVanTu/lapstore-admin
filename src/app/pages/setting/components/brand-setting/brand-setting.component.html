@@ -1,7 +1,11 @@
 <mat-card-content class="brand-content">
   <mat-card class="brand-content__wrapper">
     <mat-card-title class="brand-content__wrapper-title">
-      <p class="title">Brand</p>
+      <p class="title">Brands</p>
+      <button mat-button (click)="openDialogAdd()">
+        <img [src]="addIcon" />
+        Add new brand
+      </button>
     </mat-card-title>
     <table mat-table [dataSource]="listBrands" class="brand-content__table">
       <ng-container matColumnDef="thumbnail">
@@ -39,6 +43,25 @@
         </td>
       </ng-container>
 
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let element" class="field">
+          <span
+            (click)="
+              openDialogConfirm(element._id, element.active, element.brandName)
+            "
+          >
+            <mat-slide-toggle [checked]="element.active == 1"></mat-slide-toggle
+          ></span>
+          <span class="status active" *ngIf="element.active == 1; else unactive"
+            >Active</span
+          >
+          <ng-template #unactive>
+            <span class="status unactive">Not active</span>
+          </ng-template>
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="action" class="field">
         <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let element">
@@ -56,20 +79,6 @@
               "
             >
               <img [src]="editIcon" />
-            </button>
-            <button
-              mat-icon-button
-              class="edit-action"
-              type="button"
-              (click)="
-                openDialogEdit(
-                  element._id,
-                  element.brandName,
-                  element.brandThumbnail
-                )
-              "
-            >
-              <img [src]="deleteIcon" />
             </button>
           </div>
         </td>

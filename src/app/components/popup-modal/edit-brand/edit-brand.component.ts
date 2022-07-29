@@ -45,11 +45,11 @@ export class EditBrandComponent implements OnInit {
     this.data.isEdit = true;
     this.data.name = this.brandForm.value.name;
     this.data.thumbnail = this.brandForm.value.thumbnail;
-    const dataEdit = {
+    const newData = {
       brandName: this.data.name,
       brandThumbnail: this.data.thumbnail,
     };
-    this.dialogRef.close({ dataEdit, isEdit: this.data.isEdit });
+    this.dialogRef.close({ newData, isEdit: this.data.isEdit });
   }
 
   ngOnInit(): void {

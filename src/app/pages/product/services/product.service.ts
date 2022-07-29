@@ -61,7 +61,10 @@ export class ProductService {
   }
 
   getBrands() {
-    return this.http.get<IBrand[]>(environment.api_url + 'brands');
+    const params = {
+      active: 1,
+    };
+    return this.http.get<IBrand[]>(environment.api_url + 'brands', { params });
   }
 
   getBrandDetail(id?: string) {
