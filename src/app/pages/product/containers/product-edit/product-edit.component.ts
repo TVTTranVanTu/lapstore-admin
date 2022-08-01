@@ -41,13 +41,14 @@ export class ProductEditComponent implements OnInit {
   name!: string;
   isDelete: boolean = false;
 
-  categoryId?: string | null;
-  subCategoryId?: string | null;
+  categoryId: string[] = [];
+  subCategoryId: string[] = [];
   brandId?: string;
 
   categories!: ICategory[];
   brands!: IBrand[];
   subCategories!: ISubCategory[];
+  arraySubcategory: any[] = [[]];
 
   selectedFiles?: FileList;
   currentFileUpload?: FileUpload;
@@ -80,9 +81,7 @@ export class ProductEditComponent implements OnInit {
   initFormValue() {
     this.formDataProduct = new FormGroup({
       brand: new FormControl(this.productInfor.brand, [Validators.required]),
-      category: new FormControl(this.productInfor.category, [
-        Validators.required,
-      ]),
+      category: new FormArray([this.createCategoryArray()]),
       description: new FormControl(this.productInfor.description, [
         Validators.required,
         Validators.minLength(10),
@@ -104,9 +103,19 @@ export class ProductEditComponent implements OnInit {
       ]),
       specs: new FormArray([this.createFormArray()]),
       rating: new FormControl(this.productInfor.rating),
-      subCategory: new FormControl(this.productInfor.subCategory, [
-        Validators.required,
-      ]),
+      subCategory: new FormArray([this.createSubCategoryArray()]),
+    });
+  }
+
+  createCategoryArray() {
+    return new FormGroup({
+      id: new FormControl(),
+    });
+  }
+
+  createSubCategoryArray() {
+    return new FormGroup({
+      id: new FormControl(),
     });
   }
 
@@ -115,6 +124,14 @@ export class ProductEditComponent implements OnInit {
       key: new FormControl(this.productInfor.specs[0]?.key),
       value: new FormControl(this.productInfor.specs[0]?.value),
     });
+  }
+
+  get formCategory() {
+    return this.formDataProduct.get('category') as FormArray;
+  }
+
+  get formSubCategory() {
+    return this.formDataProduct.get('subCategory') as FormArray;
   }
 
   get formArr() {
@@ -146,7 +163,7 @@ export class ProductEditComponent implements OnInit {
 
       this.getCategories();
 
-      this.getSubCategories(this.categoryId[0]);
+      //this.getSubCategories(this.categoryId[0]);
 
       this.initFormValue();
 
@@ -165,31 +182,54 @@ export class ProductEditComponent implements OnInit {
     });
   }
 
-  // get category
-
   getCategories() {
     this.productService.getCategories().subscribe((response) => {
       this.categories = response;
+
+      let categoryArr = this.formDataProduct.get('category') as FormArray;
+
+      const newcategories = this.categories.map((i: any) => {
+        this.getSubCategory(i._id);
+        const data = {
+          id: i._id,
+        };
+        return data;
+      });
+
+      newcategories.forEach((i: any) => {
+        categoryArr.push(this.fbd.group(i));
+      });
     });
   }
 
   // get subcategory
 
-  getSubCategories(id: string | null) {
+  getSubCategory(id: string) {
     this.productService.getSubCategoriesByCT(id).subscribe((response) => {
       this.subCategories = response.data;
-      const check = this.subCategories.find(
-        (i) => i._id === this.productInfor.subCategory[0]
-      );
-      if (!check) {
-        this.formDataProduct.patchValue({
-          subCategory: this.subCategories[0]?._id,
-        });
+      this.arraySubcategory.push(this.subCategories);
+      let subCategoryArr = this.formDataProduct.get('subCategory') as FormArray;
+
+      const arrayCheck = this.subCategoryId.map((i) => {
+        const check = this.subCategories.filter((e) => e._id == i);
+
+        return check;
+      });
+      const test = arrayCheck.find((i) => {
+        return i.length > 0;
+      });
+
+      let newsubcategories;
+      if (test && test.length > 0) {
+        newsubcategories = {
+          id: test[0]._id,
+        };
       } else {
-        this.formDataProduct.patchValue({
-          subCategory: this.productInfor.subCategory,
-        });
+        newsubcategories = {
+          id: this.subCategories[0]?._id,
+        };
       }
+      subCategoryArr.push(this.fbd.group(newsubcategories));
     });
   }
 
@@ -248,7 +288,7 @@ export class ProductEditComponent implements OnInit {
     this.categoryId = data.value;
     this.productInfor.category = data.value;
     if (this.categoryId) {
-      this.getSubCategories(this.categoryId);
+      //this.getSubCategories(this.categoryId);
     }
   }
 
@@ -382,8 +422,27 @@ export class ProductEditComponent implements OnInit {
   }
 
   onEditProduct() {
-    const data = this.formDataProduct.value;
-    console.log('data', data);
+    const newcategory = this.formDataProduct.value.category.filter((i: any) => {
+      return i.id != null;
+    });
+
+    const category = newcategory.map((i: any) => {
+      return i.id;
+    });
+
+    const newsubCategory = this.formDataProduct.value.subCategory.filter(
+      (i: any) => {
+        return i.id != null;
+      }
+    );
+    const subCategory = newsubCategory.map((i: any) => {
+      return i.id;
+    });
+    const data = {
+      ...this.formDataProduct.value,
+      category: category,
+      subCategory: subCategory,
+    };
 
     this.productService.editProduct(this.productId, data).subscribe(
       (response) => {

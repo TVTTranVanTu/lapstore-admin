@@ -91,7 +91,11 @@
                   <div [formGroupName]="i" *ngIf="i != 0">
                     <p class="label">Category {{ i }}</p>
                     <mat-form-field appearance="outline" class="field-input">
-                      <mat-select placeholder="Category" formControlName="id">
+                      <mat-select
+                        placeholder="Category"
+                        [disabled]="true"
+                        formControlName="id"
+                      >
                         <mat-option
                           *ngFor="let category of categories"
                           [value]="category._id"

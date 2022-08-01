@@ -81,40 +81,61 @@
               </div>
             </div>
             <div class="row-item">
-              <div class="row-item__field">
-                <p class="label">Category</p>
-                <mat-form-field appearance="outline" class="field-input">
-                  <mat-select
-                    placeholder="Category"
-                    formControlName="category"
-                    (selectionChange)="selectCategory($event)"
-                  >
-                    <mat-option
-                      *ngFor="let category of categories"
-                      [value]="category._id"
-                    >
-                      {{ category.categoryName }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
+              <div
+                formArrayName="category"
+                class="row-item__field"
+                *ngIf="formCategory"
+              >
+                <ng-container
+                  *ngFor="let formGroup of formCategory.controls; let i = index"
+                >
+                  <div [formGroupName]="i" *ngIf="i != 0">
+                    <p class="label">Category {{ i }}</p>
+                    <mat-form-field appearance="outline" class="field-input">
+                      <mat-select
+                        placeholder="Category"
+                        [disabled]="true"
+                        formControlName="id"
+                      >
+                        <mat-option
+                          *ngFor="let category of categories"
+                          [value]="category._id"
+                        >
+                          {{ category.categoryName }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </ng-container>
               </div>
-
-              <div class="row-item__field">
-                <p class="label">Sub Category</p>
-                <mat-form-field appearance="outline" class="field-input">
-                  <mat-select
-                    placeholder="Sub Category"
-                    formControlName="subCategory"
-                    (selectionChange)="selectSubCategory($event)"
-                  >
-                    <mat-option
-                      *ngFor="let subCategory of subCategories"
-                      [value]="subCategory._id || subCategories[0]._id"
-                    >
-                      {{ subCategory.subCategoryName }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
+              <div
+                formArrayName="subCategory"
+                class="row-item__field"
+                *ngIf="formSubCategory"
+              >
+                <ng-container
+                  *ngFor="
+                    let formGroup of formSubCategory.controls;
+                    let i = index
+                  "
+                >
+                  <div [formGroupName]="i" *ngIf="i != 0">
+                    <p class="label">Sub Category {{ i }}</p>
+                    <mat-form-field appearance="outline" class="field-input">
+                      <mat-select
+                        placeholder="Sub Category"
+                        formControlName="id"
+                      >
+                        <mat-option
+                          *ngFor="let subCategory of arraySubcategory[i]"
+                          [value]="subCategory._id"
+                        >
+                          {{ subCategory.subCategoryName }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </ng-container>
               </div>
             </div>
             <div class="row-item">
