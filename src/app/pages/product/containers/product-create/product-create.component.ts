@@ -40,6 +40,7 @@ export class ProductCreateComponent implements OnInit {
   categories: any = [];
   categoryId!: string | null;
   subCategories: any = [];
+  arraySubcategory: any[] = [[]];
   subCategoryId!: string | null;
   brands: any = [];
   brandId!: string | null;
@@ -142,7 +143,7 @@ export class ProductCreateComponent implements OnInit {
         Validators.required,
         Validators.minLength(10),
       ]),
-      category: new FormControl('', [Validators.required]),
+      category: new FormArray([this.createCategoryArray()]),
       productThumbnail: new FormControl(this.url, [Validators.required]),
       description: new FormControl('', [
         Validators.required,
@@ -154,7 +155,7 @@ export class ProductCreateComponent implements OnInit {
       ]),
       rating: new FormControl(0),
       discount: new FormControl(0, [Validators.required, Validators.min(0)]),
-      subCategory: new FormControl('', [Validators.required]),
+      subCategory: new FormArray([this.createSubCategoryArray()]),
       brand: new FormControl('', [Validators.required]),
       specs: new FormArray([this.createFormArray()]),
     });
@@ -166,9 +167,22 @@ export class ProductCreateComponent implements OnInit {
     this.getBrand();
 
     this.initFormValue();
+
     const arr = this.formDataProduct.get('specs') as FormArray;
     this.detailsProduct.slice(0, 7).forEach((i) => {
       arr.push(this.fbd.group(i));
+    });
+  }
+
+  createCategoryArray() {
+    return new FormGroup({
+      id: new FormControl(),
+    });
+  }
+
+  createSubCategoryArray() {
+    return new FormGroup({
+      id: new FormControl(),
     });
   }
 
@@ -177,6 +191,14 @@ export class ProductCreateComponent implements OnInit {
       key: new FormControl('Series laptop'),
       value: new FormControl(),
     });
+  }
+
+  get formCategory() {
+    return this.formDataProduct.get('category') as FormArray;
+  }
+
+  get formSubCategory() {
+    return this.formDataProduct.get('subCategory') as FormArray;
   }
 
   get formArr() {
@@ -196,38 +218,36 @@ export class ProductCreateComponent implements OnInit {
   getCategory() {
     this.productService.getCategories().subscribe((response) => {
       this.categories = response;
-      this.categoryId = this.categories[0]?._id;
-      this.formDataProduct.patchValue({
-        category: this.categories[0]?._id,
-      });
-      if (this.categoryId) {
-        this.getSubCategory();
-      }
-    });
-  }
 
-  selectCategory(data: any) {
-    this.categoryId = data.value;
-    if (this.categoryId) {
-      this.getSubCategory();
-    }
+      let categoryArr = this.formDataProduct.get('category') as FormArray;
+
+      const newcategories = this.categories.map((i: any) => {
+        this.getSubCategory(i._id);
+        const data = {
+          id: i._id,
+        };
+        return data;
+      });
+
+      newcategories.forEach((i: any) => {
+        categoryArr.push(this.fbd.group(i));
+      });
+    });
   }
 
   // SubCategory select
 
-  getSubCategory() {
-    this.productService
-      .getSubCategoriesByCT(this.categoryId)
-      .subscribe((response) => {
-        this.subCategories = response.data;
-        this.formDataProduct.patchValue({
-          subCategory: this.subCategories[0]?._id,
-        });
-      });
-  }
+  getSubCategory(id: string) {
+    this.productService.getSubCategoriesByCT(id).subscribe((response) => {
+      this.subCategories = response.data;
+      this.arraySubcategory.push(this.subCategories);
+      let subCategoryArr = this.formDataProduct.get('subCategory') as FormArray;
 
-  selectSubCategory(data: any) {
-    this.subCategoryId = data.value;
+      const newsubcategories = {
+        id: this.subCategories[0]?._id,
+      };
+      subCategoryArr.push(this.fbd.group(newsubcategories));
+    });
   }
 
   // Brand select
@@ -333,8 +353,27 @@ export class ProductCreateComponent implements OnInit {
   // Create product
 
   onCreateProduct() {
-    const data = this.formDataProduct.value;
+    const newcategory = this.formDataProduct.value.category.filter((i: any) => {
+      return i.id != null;
+    });
 
+    const category = newcategory.map((i: any) => {
+      return i.id;
+    });
+
+    const newsubCategory = this.formDataProduct.value.subCategory.filter(
+      (i: any) => {
+        return i.id != null;
+      }
+    );
+    const subCategory = newsubCategory.map((i: any) => {
+      return i.id;
+    });
+    const data = {
+      ...this.formDataProduct.value,
+      category: category,
+      subCategory: subCategory,
+    };
     if (this.formDataProduct.valid) {
       this.productService.createProduct(data).subscribe(
         (data) => {

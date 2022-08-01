@@ -24,8 +24,8 @@ export class ProductDetailComponent implements OnInit {
   isDelete: boolean = false;
   isAdd: boolean = false;
 
-  categoryId?: string | null;
-  subCategoryId?: string | null;
+  categoryId: string[] = [];
+  subCategoryId: string[] = [];
   brandId?: string;
 
   formatVND = formatVND;
@@ -111,17 +111,20 @@ export class ProductDetailComponent implements OnInit {
       this.productService.getBrandDetail(this.brandId).subscribe((response) => {
         this.productInfor.brand = response.brandName;
       });
+      this.productInfor.category = [];
 
-      this.productService
-        .getCategoryDetail(this.categoryId)
-        .subscribe((response) => {
-          this.productInfor.category = response.categoryName;
+      this.categoryId.forEach((i) => {
+        this.productService.getCategoryDetail(i).subscribe((response) => {
+          this.productInfor.category.push(response.categoryName);
         });
-      this.productService
-        .getSubCategoryDetail(this.subCategoryId)
-        .subscribe((response) => {
-          this.productInfor.subCategory = response.subCategoryName;
+      });
+      this.productInfor.subCategory = [];
+
+      this.subCategoryId.forEach((i) => {
+        this.productService.getSubCategoryDetail(i).subscribe((response) => {
+          this.productInfor.subCategory.push(response.subCategoryName);
         });
+      });
     });
   }
 

@@ -55,16 +55,19 @@
         <div class="infor-item">
           <p class="label">Category:</p>
 
-          <span class="infor-value">
-            {{ productInfor && productInfor.category }}
-          </span>
+          <div class="infor-value">
+            <ng-container *ngFor="let item of productInfor?.category">
+              <p>- {{ item }}</p>
+            </ng-container>
+          </div>
         </div>
         <div class="infor-item">
           <p class="label">Sub Category:</p>
-
-          <span class="infor-value">
-            {{ productInfor && productInfor.subCategory }}
-          </span>
+          <div class="infor-value">
+            <ng-container *ngFor="let item of productInfor?.subCategory">
+              <p>- {{ item }}</p>
+            </ng-container>
+          </div>
         </div>
         <div class="infor-item">
           <p class="label">Price:</p>
