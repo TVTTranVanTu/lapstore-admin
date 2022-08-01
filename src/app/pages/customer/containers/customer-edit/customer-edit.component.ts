@@ -21,8 +21,7 @@ export class CustomerEditComponent implements OnInit {
   public formUserInfor!: FormGroup;
   private basePath = '/uploads';
 
-  isLoading = false;
-  isDisnable = true;
+  isLoading: boolean = false;
   userId!: string | null;
   user!: User;
   userInfor!: userInfor;
@@ -153,8 +152,9 @@ export class CustomerEditComponent implements OnInit {
           }
         }
       },
-      complete: () => console.log('Done'),
+      complete: () => {},
     });
+    this.isLoading = false;
   }
 
   getUser() {
@@ -167,6 +167,7 @@ export class CustomerEditComponent implements OnInit {
   // upload image with firebase
 
   uploadImage(event: any) {
+    this.isLoading = true;
     this.selectedFiles = event.target.files;
 
     if (this.selectedFiles) {
@@ -185,6 +186,7 @@ export class CustomerEditComponent implements OnInit {
         );
       }
     }
+    this.isLoading = false;
   }
 
   pushFileToStorage(fileUpload: FileUpload): Observable<number | undefined> {
@@ -198,6 +200,8 @@ export class CustomerEditComponent implements OnInit {
         finalize(() => {
           storageRef.getDownloadURL().subscribe((downloadURL) => {
             this.userInfor.photo = downloadURL;
+            this.formUserInfor.controls['photo'].markAsDirty();
+
             fileUpload.url = downloadURL;
             fileUpload.name = fileUpload.file.name;
             this.saveFileData(fileUpload);
@@ -216,6 +220,7 @@ export class CustomerEditComponent implements OnInit {
   // edit user infor
 
   onEdit(data = this.formUserInfor.value) {
+    this.isLoading = true;
     const dataFormat = {
       email: data.email,
       username: data.userName,
@@ -230,35 +235,28 @@ export class CustomerEditComponent implements OnInit {
       },
     };
 
-    if (JSON.stringify(this.initData) != JSON.stringify(this.userInfor)) {
-      this.isDisnable = false;
+    if (!this.formUserInfor.dirty || this.formUserInfor.invalid) {
+      this.isLoading = false;
+      return;
     }
 
-    if (!this.isDisnable) {
-      this.isLoading = true;
-      this.isDisnable = true;
-      this.settingService.editUserInfor(this.userId, dataFormat).subscribe(
-        (response) => {
-          this.snackBar.open('Edit user infor success', '', {
-            duration: 3000,
-            panelClass: 'snackbar-notification__success',
-          });
-          this.getUser();
-          this.isLoading = false;
-        },
-        (error) => {
-          this.snackBar.open('Edit user infor not success', '', {
-            duration: 3000,
-            panelClass: 'snackbar-notification__not-success',
-          });
-        }
-      );
-    }
-  }
-
-  onCancel() {
-    if (JSON.stringify(this.initData) != JSON.stringify(this.userInfor)) {
-      this.getUser();
-    }
+    this.settingService.editUserInfor(this.userId, dataFormat).subscribe(
+      (response) => {
+        this.snackBar.open('Edit user infor success', '', {
+          duration: 3000,
+          panelClass: 'snackbar-notification__success',
+        });
+        this.getUser();
+        this.isLoading = false;
+      },
+      (error) => {
+        this.isLoading = false;
+        this.snackBar.open('Edit user infor not success', '', {
+          duration: 3000,
+          panelClass: 'snackbar-notification__not-success',
+        });
+      }
+    );
+    this.isLoading = false;
   }
 }

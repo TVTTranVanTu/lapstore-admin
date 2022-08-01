@@ -17,6 +17,8 @@ export class DashboardPageComponent implements OnInit {
   numberProduct!: number;
   numberCustomer!: number;
 
+  isLoading: boolean = false;
+
   constructor(
     private customerService: CustomerService,
     private inventoryService: InventoryService,
@@ -24,8 +26,10 @@ export class DashboardPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.getProductNumber();
     this.getCustomerNumber();
+    this.isLoading = false;
   }
 
   getProductNumber() {

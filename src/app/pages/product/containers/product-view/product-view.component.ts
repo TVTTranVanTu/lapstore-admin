@@ -7,7 +7,6 @@ import { DeleteModalComponent } from 'src/app/components/popup-modal/delete-moda
 import { routes } from 'src/app/consts';
 import { formatVND } from 'src/utils/helper';
 import { ProductService } from '../../services/product.service';
-
 @Component({
   selector: 'app-product-view',
   templateUrl: './product-view.component.html',
@@ -16,6 +15,7 @@ import { ProductService } from '../../services/product.service';
 export class ProductViewComponent implements OnInit, AfterViewInit {
   name!: string;
   isDelete: boolean = false;
+  isLoading: boolean = false;
 
   editIcon: string = '../../../assets/icons/edit-icon.svg';
   deleteIcon: string = '../../../assets/icons/trash-icon.svg';
@@ -60,9 +60,11 @@ export class ProductViewComponent implements OnInit, AfterViewInit {
   ) {}
 
   public ngOnInit() {
+    this.isLoading = true;
     this.routeName = this.router.url;
 
     this.getProductList(this.eventDefault, this.filter);
+    this.isLoading = false;
   }
 
   ngAfterViewInit() {
@@ -83,6 +85,7 @@ export class ProductViewComponent implements OnInit, AfterViewInit {
   // get list products
 
   getProductList(event?: PageEvent, filter?: any) {
+    this.isLoading = true;
     this.productService.getProducts(event, filter).subscribe(
       (response: any) => {
         if (response.error) {
@@ -95,6 +98,7 @@ export class ProductViewComponent implements OnInit, AfterViewInit {
       },
       (error) => {}
     );
+    this.isLoading = false;
     return event;
   }
 
@@ -129,9 +133,11 @@ export class ProductViewComponent implements OnInit, AfterViewInit {
   }
 
   deleteProduct(id: string | null) {
+    this.isLoading = true;
     this.productService.deleteProduct(id).subscribe((data) => {
       this.products = [];
       this.getProductList(this.eventDefault);
+      this.isLoading = false;
     });
   }
 }

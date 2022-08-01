@@ -40,6 +40,7 @@ export class ProductEditComponent implements OnInit {
 
   name!: string;
   isDelete: boolean = false;
+  isLoading: boolean = false;
 
   categoryId: string[] = [];
   subCategoryId: string[] = [];
@@ -74,8 +75,10 @@ export class ProductEditComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.productId = this.route.snapshot.paramMap.get('id');
     this.getProductDetail(this.productId);
+    this.isLoading = false;
   }
 
   initFormValue() {
@@ -235,6 +238,7 @@ export class ProductEditComponent implements OnInit {
 
   // upload image
   uploadImage(event: any) {
+    this.isLoading = true;
     this.selectedFiles = event.target.files;
 
     if (this.selectedFiles) {
@@ -268,6 +272,7 @@ export class ProductEditComponent implements OnInit {
         finalize(() => {
           storageRef.getDownloadURL().subscribe((downloadURL) => {
             this.productInfor.productThumbnail = downloadURL;
+            this.isLoading = false;
             this.formDataProduct.controls['productThumbnail'].markAsDirty();
             this.formDataProduct.patchValue({
               productThumbnail: downloadURL,

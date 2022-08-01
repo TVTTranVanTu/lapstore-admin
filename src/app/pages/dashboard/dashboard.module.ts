@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { ChartsModule } from 'ng2-charts';
 import { LineChartComponent } from './components/index';
 import 'chartjs-adapter-date-fns';
+import { SpinnerModule } from 'src/app/components/spinner/spinner.module';
 
 @NgModule({
   declarations: [DashboardPageComponent, LineChartComponent],
@@ -21,6 +22,7 @@ import 'chartjs-adapter-date-fns';
     MatCardModule,
     MatIconModule,
     MatMenuModule,
+    SpinnerModule,
     MatButtonModule,
     ChartsModule,
   ],

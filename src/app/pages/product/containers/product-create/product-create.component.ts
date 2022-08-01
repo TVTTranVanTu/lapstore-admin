@@ -163,6 +163,7 @@ export class ProductCreateComponent implements OnInit {
   // Init function
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.getCategory();
     this.getBrand();
 
@@ -172,6 +173,7 @@ export class ProductCreateComponent implements OnInit {
     this.detailsProduct.slice(0, 7).forEach((i) => {
       arr.push(this.fbd.group(i));
     });
+    this.isLoading = false;
   }
 
   createCategoryArray() {
@@ -302,6 +304,7 @@ export class ProductCreateComponent implements OnInit {
   // upload image with firebase
 
   uploadImage(event: any) {
+    this.isLoading = true;
     this.selectedFiles = event.target.files;
 
     if (this.selectedFiles) {
@@ -335,7 +338,7 @@ export class ProductCreateComponent implements OnInit {
         finalize(() => {
           storageRef.getDownloadURL().subscribe((downloadURL) => {
             this.url = downloadURL;
-
+            this.isLoading = false;
             this.formDataProduct.patchValue({
               productThumbnail: this.url,
             });

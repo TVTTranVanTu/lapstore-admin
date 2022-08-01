@@ -46,6 +46,7 @@ export class CategorySettingComponent implements OnInit {
   isDelete: boolean = false;
   isEdit: boolean = false;
   isConfirm: boolean = false;
+  isLoading: boolean = false;
 
   photo: string = '../../../assets/icons/no-image-icon.svg';
   addIcon: string = '../../../assets/icons/plus.svg';
@@ -61,7 +62,9 @@ export class CategorySettingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.getCategories();
+    this.isLoading = false;
   }
 
   getCategories() {
@@ -109,9 +112,11 @@ export class CategorySettingComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
+      this.isLoading = true;
       if (result?.isAdd) {
         this.settingService.addCategory(result.newData).subscribe(
           (response) => {
+            this.isLoading = false;
             this.snackBar.open('Add new category success', '', {
               duration: 3000,
               panelClass: 'snackbar-notification__success',
@@ -119,6 +124,7 @@ export class CategorySettingComponent implements OnInit {
             this.getCategories();
           },
           (error) => {
+            this.isLoading = false;
             this.snackBar.open('Add new category not success', '', {
               duration: 3000,
               panelClass: 'snackbar-notification__not-success',
@@ -143,9 +149,11 @@ export class CategorySettingComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
+      this.isLoading = true;
       if (result?.isAdd) {
         this.settingService.editCategory(id, result.newData).subscribe(
           (response) => {
+            this.isLoading = false;
             this.snackBar.open('Edit category success', '', {
               duration: 3000,
               panelClass: 'snackbar-notification__success',
@@ -153,6 +161,7 @@ export class CategorySettingComponent implements OnInit {
             this.getCategories();
           },
           (error) => {
+            this.isLoading = false;
             this.snackBar.open('Edit category not success', '', {
               duration: 3000,
               panelClass: 'snackbar-notification__not-success',
@@ -183,8 +192,10 @@ export class CategorySettingComponent implements OnInit {
         const data = {
           active: !active,
         };
+        this.isLoading = true;
         this.settingService.editStatusCategory(id, data).subscribe(
           (response) => {
+            this.isLoading = false;
             this.snackBar.open('Change status for category success', '', {
               duration: 3000,
               panelClass: 'snackbar-notification__success',
@@ -192,6 +203,7 @@ export class CategorySettingComponent implements OnInit {
             this.getCategories();
           },
           (error) => {
+            this.isLoading = false;
             this.snackBar.open('Change status for category not success', '', {
               duration: 3000,
               panelClass: 'snackbar-notification__not-success',

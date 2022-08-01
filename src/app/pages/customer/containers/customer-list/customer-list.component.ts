@@ -14,6 +14,7 @@ import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 export class CustomerListComponent implements OnInit, AfterViewInit {
   isAdd: boolean = false;
   isDelete: boolean = false;
+  isLoading: boolean = false;
 
   editIcon: string = '../../../assets/icons/edit-2.svg';
   deleteIcon: string = '../../../assets/icons/trash-icon.svg';
@@ -57,7 +58,9 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
   };
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.getCustomers(this.eventDefault, this.filter);
+    this.isLoading = false;
   }
 
   ngAfterViewInit() {
@@ -76,6 +79,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
   }
 
   getCustomers(event?: PageEvent, filter?: any) {
+    this.isLoading = true;
     this.customerService
       .getCustomers(event, filter)
       .subscribe((response: any) => {
@@ -87,6 +91,7 @@ export class CustomerListComponent implements OnInit, AfterViewInit {
           this.length = response.pagination.totals;
         }
       });
+    this.isLoading = false;
     return event;
   }
 

@@ -26,6 +26,8 @@ export class BrandSettingComponent implements OnInit {
   isDelete: boolean = false;
   isEdit: boolean = false;
   isConfirm: boolean = false;
+  isLoading: boolean = false;
+
   photo: string = '../../../assets/icons/no-image-icon.svg';
   addIcon: string = '../../../assets/icons/plus.svg';
   editIcon: string = '../../../assets/icons/pencil-icon.svg';
@@ -38,7 +40,9 @@ export class BrandSettingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.getBrands();
+    this.isLoading = false;
   }
 
   getBrands() {
@@ -73,8 +77,10 @@ export class BrandSettingComponent implements OnInit {
   }
 
   editBrand(id: string, data: any) {
+    this.isLoading = true;
     this.settingService.editBrand(id, data).subscribe(
       (response) => {
+        this.isLoading = false;
         this.snackBar.open('Edit brand success', '', {
           duration: 3000,
           panelClass: 'snackbar-notification__success',
@@ -82,6 +88,7 @@ export class BrandSettingComponent implements OnInit {
         this.getBrands();
       },
       (error) => {
+        this.isLoading = false;
         this.snackBar.open('Edit brand not success', '', {
           duration: 3000,
           panelClass: 'snackbar-notification__not-success',
@@ -110,8 +117,11 @@ export class BrandSettingComponent implements OnInit {
   }
 
   addNewBrand(data: IBrand) {
+    this.isLoading = true;
+
     this.settingService.addBrand(data).subscribe(
       (response) => {
+        this.isLoading = false;
         this.snackBar.open('Add new brand success', '', {
           duration: 3000,
           panelClass: 'snackbar-notification__success',
@@ -119,6 +129,7 @@ export class BrandSettingComponent implements OnInit {
         this.getBrands();
       },
       (error) => {
+        this.isLoading = false;
         this.snackBar.open('Add new brand not success', '', {
           duration: 3000,
           panelClass: 'snackbar-notification__not-success',
@@ -146,8 +157,11 @@ export class BrandSettingComponent implements OnInit {
         const data = {
           active: !active,
         };
+        this.isLoading = true;
+
         this.settingService.changeActiveBrand(id, data).subscribe(
           (response) => {
+            this.isLoading = false;
             this.snackBar.open('Change status for brand success', '', {
               duration: 3000,
               panelClass: 'snackbar-notification__success',
@@ -155,6 +169,7 @@ export class BrandSettingComponent implements OnInit {
             this.getBrands();
           },
           (error) => {
+            this.isLoading = false;
             this.snackBar.open('Change status for brand not success', '', {
               duration: 3000,
               panelClass: 'snackbar-notification__not-success',

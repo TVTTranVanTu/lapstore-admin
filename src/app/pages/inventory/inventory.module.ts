@@ -21,9 +21,14 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { InventoryListComponent } from './containers/inventory-list/inventory-list.component';
 import { InventoryPageComponent } from './containers/inventory-page/inventory-page.component';
 import { InventoryDetailComponent } from './containers/inventory-detail/inventory-detail.component';
+import { SpinnerModule } from 'src/app/components/spinner/spinner.module';
 
 @NgModule({
-  declarations: [InventoryListComponent, InventoryPageComponent, InventoryDetailComponent],
+  declarations: [
+    InventoryListComponent,
+    InventoryPageComponent,
+    InventoryDetailComponent,
+  ],
   imports: [
     SharedModule,
     MatToolbarModule,
@@ -37,6 +42,7 @@ import { InventoryDetailComponent } from './containers/inventory-detail/inventor
     MatInputModule,
     ReactiveFormsModule,
     FormsModule,
+    SpinnerModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatProgressSpinnerModule,

@@ -1,3 +1,5 @@
+<app-spinner *ngIf="isLoading"></app-spinner>
+
 <mat-card-content class="information-content">
   <mat-card class="information-content__wrapper">
     <mat-card-title class="information-content__wrapper-title">
@@ -148,8 +150,8 @@
     <button
       mat-stroked-button
       color="warn"
+      type="reset"
       class="btn-action btn-cancel"
-      (click)="onCancel()"
     >
       Cancel
     </button>
