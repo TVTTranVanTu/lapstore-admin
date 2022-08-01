@@ -63,25 +63,6 @@
                 </mat-form-field>
               </div>
               <div class="row-item__field">
-                <p class="label">Category</p>
-                <mat-form-field appearance="outline" class="field-input">
-                  <mat-select
-                    placeholder="Category"
-                    formControlName="category"
-                    (selectionChange)="selectCategory($event)"
-                  >
-                    <mat-option
-                      *ngFor="let category of categories"
-                      [value]="category._id"
-                    >
-                      {{ category.categoryName }}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </div>
-            <div class="row-item">
-              <div class="row-item__field">
                 <p class="label">Brand</p>
                 <mat-form-field appearance="outline" class="field-input">
                   <mat-select
@@ -98,6 +79,26 @@
                   </mat-select>
                 </mat-form-field>
               </div>
+            </div>
+            <div class="row-item">
+              <div class="row-item__field">
+                <p class="label">Category</p>
+                <mat-form-field appearance="outline" class="field-input">
+                  <mat-select
+                    placeholder="Category"
+                    formControlName="category"
+                    (selectionChange)="selectCategory($event)"
+                  >
+                    <mat-option
+                      *ngFor="let category of categories"
+                      [value]="category._id"
+                    >
+                      {{ category.categoryName }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
               <div class="row-item__field">
                 <p class="label">Sub Category</p>
                 <mat-form-field appearance="outline" class="field-input">

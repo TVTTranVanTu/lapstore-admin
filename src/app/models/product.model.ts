@@ -6,7 +6,7 @@ export type spec = {
 export interface IProduct {
   _id: string;
   brand: string;
-  category: string;
+  category: string[];
   description: string;
   discount: number;
   price: number;
@@ -15,5 +15,5 @@ export interface IProduct {
   status: number;
   rating: number;
   specs: spec[];
-  subCategory: string;
+  subCategory: string[];
 }

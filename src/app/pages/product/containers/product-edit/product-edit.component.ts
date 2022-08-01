@@ -146,7 +146,7 @@ export class ProductEditComponent implements OnInit {
 
       this.getCategories();
 
-      this.getSubCategories(this.categoryId);
+      this.getSubCategories(this.categoryId[0]);
 
       this.initFormValue();
 
@@ -179,9 +179,9 @@ export class ProductEditComponent implements OnInit {
     this.productService.getSubCategoriesByCT(id).subscribe((response) => {
       this.subCategories = response.data;
       const check = this.subCategories.find(
-        (i) => i._id === this.productInfor.subCategory
+        (i) => i._id === this.productInfor.subCategory[0]
       );
-      if (!check && this.categoryId != this.productInfor.category) {
+      if (!check) {
         this.formDataProduct.patchValue({
           subCategory: this.subCategories[0]?._id,
         });
