@@ -1,3 +1,4 @@
+<app-spinner *ngIf="isLoading"></app-spinner>
 <mat-toolbar class="header-title" role="heading">
   <div class="toolbar-link">
     <img
@@ -162,8 +163,8 @@
     <button
       mat-stroked-button
       color="warn"
+      type="reset"
       class="btn-action btn-cancel"
-      (click)="onCancel()"
     >
       Cancel
     </button>

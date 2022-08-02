@@ -21,6 +21,7 @@ import {
   CustomerEditComponent,
   CustomerListComponent,
 } from './containers/index';
+import { SpinnerModule } from 'src/app/components/spinner/spinner.module';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import {
     AppRoutingModule,
     MatTableModule,
     MatInputModule,
+    SpinnerModule,
     ReactiveFormsModule,
     FormsModule,
     MatDatepickerModule,

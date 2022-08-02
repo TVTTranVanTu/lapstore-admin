@@ -20,6 +20,7 @@ export class ProductDetailComponent implements OnInit {
   productId?: string | null;
   productInfor!: IProduct;
 
+  isLoading: boolean = false;
   name!: string;
   isDelete: boolean = false;
   isAdd: boolean = false;
@@ -43,8 +44,10 @@ export class ProductDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.productId = this.route.snapshot.paramMap.get('id');
     this.getProductDetail(this.productId);
+    this.isLoading = false;
   }
 
   openDialogAdd(name: string | null) {
@@ -149,8 +152,10 @@ export class ProductDetailComponent implements OnInit {
   }
 
   deleteProduct(id: string | null) {
+    this.isLoading = true;
     this.productService.deleteProduct(id).subscribe((data) => {
       this.router.navigate([routes.PRODUCTS]);
     });
+    this.isLoading = false;
   }
 }

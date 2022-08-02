@@ -21,6 +21,7 @@ import { InformationSettingComponent } from './components/information-setting/in
 import { MatTableModule } from '@angular/material/table';
 import { MatListModule } from '@angular/material/list';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { SpinnerModule } from 'src/app/components/spinner/spinner.module';
 @NgModule({
   declarations: [
     SettingComponent,
@@ -37,6 +38,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatMenuModule,
     MatButtonModule,
     MatInputModule,
+    SpinnerModule,
     ReactiveFormsModule,
     FormsModule,
     MatDatepickerModule,

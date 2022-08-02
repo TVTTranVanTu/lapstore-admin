@@ -29,6 +29,7 @@ export class InventoryListComponent implements OnInit {
   ];
   isAdd: boolean = false;
   isDelete: boolean = false;
+  isLoading: boolean = false;
 
   editIcon: string = '../../../assets/icons/edit-icon.svg';
   deleteIcon: string = '../../../assets/icons/trash-icon.svg';
@@ -54,7 +55,9 @@ export class InventoryListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.getInventoryList(this.eventDefault, this.filter);
+    this.isLoading = false;
   }
 
   ngAfterViewInit() {
@@ -73,6 +76,7 @@ export class InventoryListComponent implements OnInit {
   }
 
   getInventoryList(event?: PageEvent, filter?: any) {
+    this.isLoading = true;
     this.inventoryService
       .getInventory(event, filter)
       .subscribe((response: any) => {
@@ -84,6 +88,7 @@ export class InventoryListComponent implements OnInit {
           this.length = response.pagination.totals;
         }
       });
+    this.isLoading = false;
     return event;
   }
   openDialogUpdate(id: string, name: string, quantity: number) {
@@ -113,12 +118,14 @@ export class InventoryListComponent implements OnInit {
   }
 
   updateInventory(id: string, data: any) {
+    this.isLoading = true;
     const value = {
       quantity: data.quantity,
     };
 
     this.inventoryService.updateInventory(id, value).subscribe(
       (response) => {
+        this.isLoading = false;
         this.snackBar.open('Add product to inventory success', '', {
           duration: 3000,
           panelClass: 'snackbar-notification__success',
@@ -126,6 +133,7 @@ export class InventoryListComponent implements OnInit {
         this.getInventoryList(this.eventDefault, this.filter);
       },
       (error) => {
+        this.isLoading = false;
         this.snackBar.open('Add product to inventory not success', '', {
           duration: 3000,
           panelClass: 'snackbar-notification__not-success',
@@ -154,8 +162,10 @@ export class InventoryListComponent implements OnInit {
   }
 
   deleteInventory(id: string) {
+    this.isLoading = true;
     this.inventoryService.deleteInventory(id).subscribe(
       (response) => {
+        this.isLoading = false;
         this.snackBar.open('Add product to inventory success', '', {
           duration: 3000,
           panelClass: 'snackbar-notification__success',
@@ -163,6 +173,7 @@ export class InventoryListComponent implements OnInit {
         this.getInventoryList();
       },
       (error) => {
+        this.isLoading = false;
         this.snackBar.open('Add product to inventory not success', '', {
           duration: 3000,
           panelClass: 'snackbar-notification__not-success',

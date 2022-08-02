@@ -14,6 +14,7 @@ export class InventoryDetailComponent implements OnInit {
   slashIcon: string = '../../../assets/icons/slash-icon.svg';
 
   inventoryDetail!: IIventory;
+  isLoading: boolean = false;
 
   displayedColumns: string[] = ['userName', 'quantity', 'status'];
 
@@ -24,9 +25,11 @@ export class InventoryDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     const id = this.route.snapshot.paramMap.get('id') || '';
 
     this.getInventoryDetail(id);
+    this.isLoading = false;
   }
 
   getInventoryDetail(id: string) {
